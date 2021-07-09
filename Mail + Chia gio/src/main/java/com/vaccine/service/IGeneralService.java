@@ -22,4 +22,6 @@ public interface IGeneralService<T> {
     String getMaxTimeFromData();
 
     int  countMaxDayToNext();
+
+//    List<T>
 }

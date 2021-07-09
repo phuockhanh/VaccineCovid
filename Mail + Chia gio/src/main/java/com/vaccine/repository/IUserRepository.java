@@ -26,5 +26,7 @@ public interface IUserRepository extends JpaRepository<User,Long> {
     @Query("select e.TimeVaccine from User e where (e.status = 1 or  e.status = 2) and e.id = (select max(id) from e)")
     String getMaxTimeFromData();
 
+    @Query("select e from User  e where (e.status=1 or e.status=2) and e.DateVaccine=?1")
+    List<User> getUserOneDay(String date);
 
 }

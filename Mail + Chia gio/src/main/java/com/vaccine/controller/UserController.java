@@ -17,6 +17,11 @@ import java.time.format.DateTimeFormatter;
 @RestController
 @RequestMapping(value = "/vaccine", produces = "application/x-www-form-urlencoded;charset=UTF-8")
 public class UserController {
+    static int countTime = 0;
+    static int oneDayDone = 0;
+
+    static int setPeoplePerHour = 3;
+    static int setToChangeDay = setPeoplePerHour*4;
 
     @Autowired
     IUserService userService;
@@ -69,13 +74,16 @@ public class UserController {
         System.out.println("to change day is: " + countMaxDay);
         System.out.println("Day is: "+userService.getMaxDayFromData());
 
+        System.out.println("Mã day: "+userService.getMaxDayFromData());
+        System.out.println("Time max day: "+userService.getMaxTimeFromData());
+
 
         setDayTimeVaccine(user, str, countMaxTime, countMaxDay);
 
         userService.save(user);
-        if(user.getEmail()!=null){
-            sendEmail("phuockhanh1010@gmail.com",user.getEmail(),"Hello","Xin chao"+user.getUserName());
-        }
+//        if(user.getEmail()!=null){
+//            sendEmail("phuockhanh1010@gmail.com",user.getEmail(),"Hello","Xin chao"+user.getUserName());
+//        }
 
 
         ModelAndView modelAndView = new ModelAndView("/form");
@@ -97,7 +105,7 @@ public class UserController {
                 status = 2;
             }
         } else {
-            if (user.getAge() >= 16) {
+            if (user.getAge() >= 16 && user.getAge()<=65) {
                 status = 2;
             } else {
                 status = 3;
@@ -105,14 +113,6 @@ public class UserController {
         }
         return status;
     }
-
-    static int countTime = 0;
-    static int oneDayDone = 0;
-
-    static int setPeoplePerHour = 3;
-    static int setToChangeDay = setPeoplePerHour*4;
-
-
 
     public static void setDayTimeVaccine(User user, String str, Integer countMaxTime, int coutMaxDay) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
